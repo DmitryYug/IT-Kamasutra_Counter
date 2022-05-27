@@ -1,25 +1,27 @@
 import React, {useEffect, useState} from "react";
 import {CounterScreen} from "../CounterScreen/CounterScreen";
 import {CounterSettings} from "../CounterSettings/CounterSettings";
-import {Box, Container} from "@mui/material";
 
 export const Counter = () => {
 
-    let [maxCounter, setMaxCounter] = useState<number>(5)
-    let [startCounter, setStartCounter] = useState<number>(0)
-    let [currentCounter, setCurrentCounter] = useState(0)
+    let initialStartCounter = localStorage.getItem('startValue') ?
+        Number(localStorage.getItem('startValue')) : 0
+    let initialMaxCounter = localStorage.getItem('maxValue') ?
+        Number(localStorage.getItem('maxValue')) : 5
 
-    // useEffect( () => {
-    //     localStorage.setItem('startValue', JSON.stringify(startCounter))
-    // }, [startCounter])
-    //
-    // useEffect( () => {
-    //     localStorage.setItem('maxValue', JSON.stringify(maxCounter))
-    // }, [maxCounter])
+    let [maxCounter, setMaxCounter] = useState<number>(initialMaxCounter)
+    let [startCounter, setStartCounter] = useState<number>(initialStartCounter)
+    let [currentCounter, setCurrentCounter] = useState(initialStartCounter)
+    let [error, setError] = useState(false)
+
+    // let errorClass =
+
+    console.log(maxCounter, startCounter)
 
     useEffect(() => {
         let startValueAsString = localStorage.getItem('startValue')
         if (startValueAsString) {
+            setCurrentCounter(JSON.parse(startValueAsString))
             setStartCounter(JSON.parse(startValueAsString))
         }
         let maxValueAsString = localStorage.getItem('maxValue')
@@ -27,6 +29,14 @@ export const Counter = () => {
             setMaxCounter(JSON.parse(maxValueAsString))
         }
     }, [])
+
+
+    useEffect(() => {
+        if (maxCounter <= startCounter) {
+            setError(true)
+
+        } else { setError(false) }
+    }, [maxCounter, startCounter])
 
     const onIncrement = () => {
         if (currentCounter === maxCounter) {
@@ -36,14 +46,25 @@ export const Counter = () => {
         }
     }
     const onReset = () => {
-        setCurrentCounter(startCounter)
+        let startValueAsString = localStorage.getItem('startValue')
+        if (startValueAsString) {
+            setCurrentCounter(JSON.parse(startValueAsString))
+        } else {
+            setCurrentCounter(startCounter)
+        }
     }
-    const onSetSettings = (maxValue: number, startValue: number) => {
-        setStartCounter(startValue)
+    const maxValueSetter = (maxValue: number) => {
         setMaxCounter(maxValue)
-        setCurrentCounter(startValue)
-        localStorage.setItem('startValue', JSON.stringify(startValue))
-        localStorage.setItem('maxValue', JSON.stringify(maxValue))
+    }
+    const startValueSetter = (startValue: number) => {
+        setStartCounter(startValue)
+    }
+    const onSetSettings = () => {
+        setStartCounter(startCounter)
+        setMaxCounter(maxCounter)
+        setCurrentCounter(startCounter)
+        localStorage.setItem('startValue', JSON.stringify(startCounter))
+        localStorage.setItem('maxValue', JSON.stringify(maxCounter))
     }
 
     return (
@@ -53,15 +74,18 @@ export const Counter = () => {
         }}>
             <CounterSettings
                 counter={currentCounter}
-                onSetSettings={onSetSettings}
                 maxCounter={maxCounter}
                 startCounter={startCounter}
-                // btnCallback={onClickCounterBtn}
+                error={error}
+                onSetSettings={onSetSettings}
+                maxValueSetter={maxValueSetter}
+                startValueSetter={startValueSetter}
             />
             <CounterScreen
                 counter={currentCounter}
                 maxCounter={maxCounter}
                 startCounter={startCounter}
+                error={error}
                 onIncrement={onIncrement}
                 onReset={onReset}
             />

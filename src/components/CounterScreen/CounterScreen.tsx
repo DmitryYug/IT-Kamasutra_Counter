@@ -7,62 +7,48 @@ type CounterScreenPropsType = {
     counter: number
     maxCounter?: number
     startCounter: number
-    // btnCallback: (name: BtnNameType) => void
+    error?: boolean
     onIncrement: () => void
     onReset: () => void
 
 }
 
 export const CounterScreen: React.FC<CounterScreenPropsType> = (
-    {counter, maxCounter, startCounter, onIncrement, onReset}) => {
+    {counter, maxCounter, startCounter, error,onIncrement, onReset}) => {
 
+    let disabledIncBtn = false,
+        disabledResetBtn = false
+
+    if (counter === maxCounter) {
+        disabledIncBtn = true
+    }
+    if (counter === startCounter) {
+        disabledResetBtn = true
+    }
 
     return (
         <Grid container>
             <Grid item xs={12}>
-                <CounterDisplay maxValue={maxCounter} counter={counter}/>
+                <CounterDisplay
+                    maxCounter={maxCounter}
+                    counter={counter}
+                    error={error}
+                />
             </Grid>
             <Grid item xs={6}>
                 <CounterBtn
-                    counter={counter}
-                    maxValue={maxCounter}
-                    startValue={startCounter}
                     name='inc'
+                    disabled={disabledIncBtn}
                     btnCallback={onIncrement}
                 />
             </Grid>
             <Grid item xs={6}>
                 <CounterBtn
-                    counter={counter}
-                    maxValue={maxCounter}
-                    startValue={startCounter}
                     name='reset'
+                    disabled={disabledResetBtn}
                     btnCallback={onReset}
                 />
             </Grid>
-
-
         </Grid>
-
-
-        // <div style={{
-        //     display: 'block'
-        // }}>
-        //     <CounterDisplay maxValue={maxCounter} counter={counter}/>
-        //     <CounterBtn
-        //         counter={counter}
-        //         maxValue={maxCounter}
-        //         startValue={startCounter}
-        //         name='inc'
-        //         btnCallback={onIncrement}
-        //     />
-        //     <CounterBtn
-        //         counter={counter}
-        //         maxValue={maxCounter}
-        //         startValue={startCounter}
-        //         name='reset'
-        //         btnCallback={onReset}
-        //     />
-        // </div>
     )
 }
