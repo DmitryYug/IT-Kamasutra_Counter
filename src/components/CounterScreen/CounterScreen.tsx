@@ -7,14 +7,16 @@ type CounterScreenPropsType = {
     counter: number
     maxCounter?: number
     startCounter: number
-    error?: boolean
+    maxValueError?: boolean
+    startValueError?: boolean
     onIncrement: () => void
     onReset: () => void
 
 }
 
 export const CounterScreen: React.FC<CounterScreenPropsType> = (
-    {counter, maxCounter, startCounter, error,onIncrement, onReset}) => {
+    {counter, maxCounter, startCounter,
+        maxValueError, startValueError,onIncrement, onReset}) => {
 
     let disabledIncBtn = false,
         disabledResetBtn = false
@@ -32,7 +34,8 @@ export const CounterScreen: React.FC<CounterScreenPropsType> = (
                 <CounterDisplay
                     maxCounter={maxCounter}
                     counter={counter}
-                    error={error}
+                    maxValueError={maxValueError}
+                    startValueError={startValueError}
                 />
             </Grid>
             <Grid item xs={6}>

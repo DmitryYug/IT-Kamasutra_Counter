@@ -86,7 +86,8 @@ export const Counter = () => {
                 counter={currentCounter}
                 maxCounter={maxCounter}
                 startCounter={startCounter}
-                error={maxValueError}
+                maxValueError={maxValueError}
+                startValueError={startValueError}
                 onIncrement={onIncrement}
                 onReset={onReset}
             />

@@ -4,11 +4,13 @@ import classes from "./CounterDisplay.module.css";
 type CounterDisplayType = {
     counter: number
     maxCounter?: number
-    error?: boolean
+    maxValueError?: boolean
+    startValueError?: boolean
 }
 
 const CounterDisplay: React.FC<CounterDisplayType> = (
-    {maxCounter, counter, error}) => {
+    {maxCounter, counter,
+        maxValueError, startValueError}) => {
 
     let errorMessage = () => {
         return(
@@ -21,7 +23,7 @@ const CounterDisplay: React.FC<CounterDisplayType> = (
         )
     }
     let maxValueClass = (counter === maxCounter) ? classes.maxValueClass : ''
-    let dispayedText = error ? errorMessage() : counter
+    let dispayedText = (maxValueError || startValueError) ? errorMessage() : counter
 
     return (
         <div
