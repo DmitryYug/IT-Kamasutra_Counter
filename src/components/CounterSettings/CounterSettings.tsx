@@ -6,7 +6,8 @@ type CounterSettingsPropsType = {
     counter: number
     maxCounter: number
     startCounter: number
-    error: boolean
+    maxValueError: boolean
+    startValueError: boolean
     onSetSettings: () => void
     maxValueSetter: (maxValue: number) => void
     startValueSetter: (startValue: number) => void
@@ -14,8 +15,12 @@ type CounterSettingsPropsType = {
 
 
 export const CounterSettings: React.FC<CounterSettingsPropsType> = (
-    {counter, onSetSettings, maxCounter, startCounter, error,
-        maxValueSetter, startValueSetter}) => {
+    {counter, onSetSettings, maxCounter, startCounter,
+        maxValueError,startValueError,maxValueSetter, startValueSetter}) => {
+
+
+
+
 
     const onChangeMaxValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
         let currentMaxValue = +e.currentTarget.value
@@ -31,25 +36,28 @@ export const CounterSettings: React.FC<CounterSettingsPropsType> = (
         onSetSettings()
     }
 
+    let maxErrorHelperText = maxValueError ? 'max should be more than start' : ''
+    let startErrorHelperText = startValueError ? 'value should be positive integer' : ''
+
+
     return (
         <div>
             <Grid container spacing={1}>
                 <Grid item xs={12}>
                     <TextField
-                        // error
-                        // helperText='incorrect value'
+                        error = {maxValueError}
+                        helperText={maxErrorHelperText}
                         value={maxCounter}
                         type='number'
                         variant="outlined"
                         label='max value'
                         onChange={onChangeMaxValueHandler}
                     />
-                    {/*{maxValueTextField}*/}
                 </Grid>
                 <Grid item xs={12}>
                     <TextField
-                        // error
-                        // helperText='incorrect value'
+                        error = {startValueError}
+                        helperText={startErrorHelperText}
                         value={startCounter}
                         type='number'
                         variant="outlined"

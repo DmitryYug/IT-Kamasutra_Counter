@@ -22,7 +22,6 @@ const CounterDisplay: React.FC<CounterDisplayType> = (
     }
     let maxValueClass = (counter === maxCounter) ? classes.maxValueClass : ''
     let dispayedText = error ? errorMessage() : counter
-    console.log(error)
 
     return (
         <div

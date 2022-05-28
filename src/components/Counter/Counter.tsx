@@ -12,11 +12,9 @@ export const Counter = () => {
     let [maxCounter, setMaxCounter] = useState<number>(initialMaxCounter)
     let [startCounter, setStartCounter] = useState<number>(initialStartCounter)
     let [currentCounter, setCurrentCounter] = useState(initialStartCounter)
-    let [error, setError] = useState(false)
+    let [maxValueError, setMaxValueError] = useState(false)
+    let [startValueError, setStartValueError] = useState(false)
 
-    // let errorClass =
-
-    console.log(maxCounter, startCounter)
 
     useEffect(() => {
         let startValueAsString = localStorage.getItem('startValue')
@@ -33,9 +31,11 @@ export const Counter = () => {
 
     useEffect(() => {
         if (maxCounter <= startCounter) {
-            setError(true)
-
-        } else { setError(false) }
+            setMaxValueError(true)
+        } else { setMaxValueError(false)}
+        if (startCounter < 0) {
+            setStartValueError(true)
+        } else (setStartValueError(false))
     }, [maxCounter, startCounter])
 
     const onIncrement = () => {
@@ -76,7 +76,8 @@ export const Counter = () => {
                 counter={currentCounter}
                 maxCounter={maxCounter}
                 startCounter={startCounter}
-                error={error}
+                maxValueError={maxValueError}
+                startValueError={startValueError}
                 onSetSettings={onSetSettings}
                 maxValueSetter={maxValueSetter}
                 startValueSetter={startValueSetter}
@@ -85,7 +86,7 @@ export const Counter = () => {
                 counter={currentCounter}
                 maxCounter={maxCounter}
                 startCounter={startCounter}
-                error={error}
+                error={maxValueError}
                 onIncrement={onIncrement}
                 onReset={onReset}
             />
