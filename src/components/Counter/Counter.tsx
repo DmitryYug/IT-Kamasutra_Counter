@@ -15,7 +15,9 @@ export const Counter = () => {
     let [maxValueError, setMaxValueError] = useState(false)
     let [startValueError, setStartValueError] = useState(false)
 
+    let [currentInfo, setCurrentInfo] = useState(`${initialStartCounter}`)
 
+//LocalStorage
     useEffect(() => {
         let startValueAsString = localStorage.getItem('startValue')
         if (startValueAsString) {
@@ -32,10 +34,13 @@ export const Counter = () => {
     useEffect(() => {
         if (maxCounter <= startCounter) {
             setMaxValueError(true)
+            setCurrentInfo('wrong input')
         } else { setMaxValueError(false)}
         if (startCounter < 0) {
             setStartValueError(true)
+            setCurrentInfo('wrong input')
         } else (setStartValueError(false))
+
     }, [maxCounter, startCounter])
 
     const onIncrement = () => {
@@ -43,14 +48,17 @@ export const Counter = () => {
             return
         } else {
             setCurrentCounter(currentCounter + 1)
+            setCurrentInfo(`${currentCounter +1}`)
         }
     }
     const onReset = () => {
         let startValueAsString = localStorage.getItem('startValue')
         if (startValueAsString) {
             setCurrentCounter(JSON.parse(startValueAsString))
+            setCurrentInfo(startValueAsString)
         } else {
             setCurrentCounter(startCounter)
+            setCurrentInfo(`${startCounter}`)
         }
     }
     const maxValueSetter = (maxValue: number) => {
@@ -59,12 +67,18 @@ export const Counter = () => {
     const startValueSetter = (startValue: number) => {
         setStartCounter(startValue)
     }
+
     const onSetSettings = () => {
-        setStartCounter(startCounter)
-        setMaxCounter(maxCounter)
-        setCurrentCounter(startCounter)
+        // setStartCounter(startCounter)
+        // setMaxCounter(maxCounter)
+        setCurrentInfo(`${startCounter}`)
+        // setCurrentCounter(startCounter)
         localStorage.setItem('startValue', JSON.stringify(startCounter))
         localStorage.setItem('maxValue', JSON.stringify(maxCounter))
+    }
+
+    const onFocusSettingsDisplayedText = () => {
+        setCurrentInfo("Enter values and press SET")
     }
 
     return (
@@ -81,6 +95,7 @@ export const Counter = () => {
                 onSetSettings={onSetSettings}
                 maxValueSetter={maxValueSetter}
                 startValueSetter={startValueSetter}
+                onFocusSettingsDisplayedText={onFocusSettingsDisplayedText}
             />
             <CounterScreen
                 counter={currentCounter}
@@ -88,6 +103,7 @@ export const Counter = () => {
                 startCounter={startCounter}
                 maxValueError={maxValueError}
                 startValueError={startValueError}
+                currentInfo={currentInfo}
                 onIncrement={onIncrement}
                 onReset={onReset}
             />

@@ -6,31 +6,34 @@ type CounterDisplayType = {
     maxCounter?: number
     maxValueError?: boolean
     startValueError?: boolean
+    currentInfo: string
 }
 
 const CounterDisplay: React.FC<CounterDisplayType> = (
     {maxCounter, counter,
-        maxValueError, startValueError}) => {
+        maxValueError, startValueError, currentInfo}) => {
 
-    let errorMessage = () => {
-        return(
-            <div style={{
-                fontSize: '54px',
-                color: "red"
-            }}>
-                wrong input
-            </div>
-        )
-    }
+    // let errorMessage = () => {
+    //     return(
+    //         <div style={{
+    //             fontSize: '54px',
+    //             color: "red"
+    //         }}>
+    //             wrong input
+    //         </div>
+    //     )
+    // }
     let maxValueClass = (counter === maxCounter) ? classes.maxValueClass : ''
-    let dispayedText = (maxValueError || startValueError) ? errorMessage() : counter
+    // let dispayedText = (maxValueError || startValueError) ? errorMessage() : counter
+
 
     return (
         <div
             className={maxValueClass}
             style={{fontSize: '105px'}}
         >
-            {dispayedText}
+            {currentInfo}
+            {/*{dispayedText}*/}
         </div>
     )
 }
