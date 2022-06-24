@@ -1,112 +1,154 @@
 import React, {useEffect, useState} from "react";
-import {CounterScreen} from "../CounterScreen/CounterScreen";
+// import {CounterScreen} from "../CounterScreen/CounterScreen";
 import {CounterSettings} from "../CounterSettings/CounterSettings";
+import CounterBtn from "../CounterBtn/CounterBtn";
+import CounterDisplay from "../CounterDisplay/CounterDisplay";
+import {start} from "repl";
 
 export const Counter = () => {
 
-    let initialStartCounter = localStorage.getItem('startValue') ?
-        Number(localStorage.getItem('startValue')) : 0
-    let initialMaxCounter = localStorage.getItem('maxValue') ?
-        Number(localStorage.getItem('maxValue')) : 5
-
-    let [maxCounter, setMaxCounter] = useState<number>(initialMaxCounter)
-    let [startCounter, setStartCounter] = useState<number>(initialStartCounter)
-    let [currentCounter, setCurrentCounter] = useState(initialStartCounter)
-    let [maxValueError, setMaxValueError] = useState(false)
-    let [startValueError, setStartValueError] = useState(false)
-
-    let [currentInfo, setCurrentInfo] = useState(`${initialStartCounter}`)
+    // let initialStartCounter = localStorage.getItem('startValue') ?
+    //     Number(localStorage.getItem('startValue')) : 0
+    // let initialMaxCounter = localStorage.getItem('maxValue') ?
+    //     Number(localStorage.getItem('maxValue')) : 5
+    let [maxCounter, setMaxCounter] = useState<number>(5)
+    let [startCounter, setStartCounter] = useState<number>(0)
+    let [currentCounter, setCurrentCounter] = useState<number>(startCounter)
+    let [screenMessage, setScreenMessage] = useState<string>(`${startCounter}`)
+    let [error, setError] = useState<boolean>(false)
+    let [settingsMode, setSettingsMode] = useState<boolean>(false)
+    let [maxHelperText, setMaxHelperText] = useState<string>('')
+    let [startHelperText, setStartHelperText] = useState<string>('')
 
 //LocalStorage
+//     useEffect(() => {
+//         let startValueAsString = localStorage.getItem('startValue')
+//         if (startValueAsString) {
+//             setCurrentCounter(JSON.parse(startValueAsString))
+//             setStartCounter(JSON.parse(startValueAsString))
+//         }
+//         let maxValueAsString = localStorage.getItem('maxValue')
+//         if (maxValueAsString) {
+//             setMaxCounter(JSON.parse(maxValueAsString))
+//         }
+//     }, [])
+
+    let incBtnDisabled = (currentCounter === maxCounter) || error || settingsMode
+    let resetBtnDisabled = (currentCounter === startCounter) || error || settingsMode
+
     useEffect(() => {
-        let startValueAsString = localStorage.getItem('startValue')
-        if (startValueAsString) {
-            setCurrentCounter(JSON.parse(startValueAsString))
-            setStartCounter(JSON.parse(startValueAsString))
+        if (maxCounter <= startCounter || startCounter < 0) {
+            setError(true)
+            setScreenMessage('wrong input')
+        } else {
+            setError(false)
+            setScreenMessage("Enter values and press SET")
         }
-        let maxValueAsString = localStorage.getItem('maxValue')
-        if (maxValueAsString) {
-            setMaxCounter(JSON.parse(maxValueAsString))
-        }
-    }, [])
-
-
-    useEffect(() => {
-        if (maxCounter <= startCounter) {
-            setMaxValueError(true)
-            setCurrentInfo('wrong input')
-        } else { setMaxValueError(false)}
-        if (startCounter < 0) {
-            setStartValueError(true)
-            setCurrentInfo('wrong input')
-        } else (setStartValueError(false))
-
     }, [maxCounter, startCounter])
+
 
     const onIncrement = () => {
         if (currentCounter === maxCounter) {
             return
         } else {
             setCurrentCounter(currentCounter + 1)
-            setCurrentInfo(`${currentCounter +1}`)
+            setScreenMessage(`${currentCounter + 1}`)
         }
     }
     const onReset = () => {
-        let startValueAsString = localStorage.getItem('startValue')
-        if (startValueAsString) {
-            setCurrentCounter(JSON.parse(startValueAsString))
-            setCurrentInfo(startValueAsString)
-        } else {
-            setCurrentCounter(startCounter)
-            setCurrentInfo(`${startCounter}`)
-        }
+        setScreenMessage(`${startCounter}`)
+        setCurrentCounter(startCounter)
+        // let startValueAsString = localStorage.getItem('startValue')
+        // if (startValueAsString) {
+        //     setCurrentCounter(JSON.parse(startValueAsString))
+        //     setScreenMessage(startValueAsString)
+        // } else {
+        //     debugger
+        //     setScreenMessage(`${startCounter}`)
+        //     setCurrentCounter(startCounter)
+        // }
     }
     const maxValueSetter = (maxValue: number) => {
         setMaxCounter(maxValue)
+        if (maxValue <= startCounter ) {
+            setMaxHelperText('max should be more than less')
+        } else {
+            setStartHelperText('')
+            setMaxHelperText('')
+        }
     }
     const startValueSetter = (startValue: number) => {
         setStartCounter(startValue)
+        if (startValue < 0 || startValue >= maxCounter) {
+            setStartHelperText('should be pos & more than start')
+        } else {
+            setMaxHelperText('')
+            setStartHelperText('')
+        }
     }
 
     const onSetSettings = () => {
-        // setStartCounter(startCounter)
-        // setMaxCounter(maxCounter)
-        setCurrentInfo(`${startCounter}`)
-        // setCurrentCounter(startCounter)
-        localStorage.setItem('startValue', JSON.stringify(startCounter))
-        localStorage.setItem('maxValue', JSON.stringify(maxCounter))
+        setStartCounter(startCounter)
+        setMaxCounter(maxCounter)
+        setCurrentCounter(startCounter)
+        setScreenMessage(`${startCounter}`)
+        setSettingsMode(false)
+        // localStorage.setItem('startValue', JSON.stringify(startCounter))
+        // localStorage.setItem('maxValue', JSON.stringify(maxCounter))
     }
 
     const onFocusSettingsDisplayedText = () => {
-        setCurrentInfo("Enter values and press SET")
+        setScreenMessage("Enter values and press SET")
+        setSettingsMode(true)
     }
+
 
     return (
         <div style={{
             margin: '100px',
             display: 'flex'
         }}>
-            <CounterSettings
-                counter={currentCounter}
-                maxCounter={maxCounter}
-                startCounter={startCounter}
-                maxValueError={maxValueError}
-                startValueError={startValueError}
-                onSetSettings={onSetSettings}
-                maxValueSetter={maxValueSetter}
-                startValueSetter={startValueSetter}
-                onFocusSettingsDisplayedText={onFocusSettingsDisplayedText}
-            />
-            <CounterScreen
-                counter={currentCounter}
-                maxCounter={maxCounter}
-                startCounter={startCounter}
-                maxValueError={maxValueError}
-                startValueError={startValueError}
-                currentInfo={currentInfo}
-                onIncrement={onIncrement}
-                onReset={onReset}
-            />
+            <div>
+                <CounterDisplay
+                    redText={incBtnDisabled}
+                    screenMessage={screenMessage}/>
+                <div style={{
+                    padding: '8px',
+                    display: 'flex',
+                    justifyContent: 'space-around',
+                }}>
+                    <div style={{
+                        margin: '0 20px 0 0'
+                    }}>
+                        <CounterBtn
+                            name='inc'
+                            disabled={incBtnDisabled}
+                            btnCallback={onIncrement}
+                        />
+                    </div>
+                    <CounterBtn
+                        name='reset'
+                        disabled={resetBtnDisabled}
+                        btnCallback={onReset}
+                    />
+                </div>
+            </div>
+            <div style={{
+                width: '250px',
+                margin: '0 0 0 30px'
+            }}>
+                <CounterSettings
+                    error={error}
+                    maxCounter={maxCounter}
+                    startCounter={startCounter}
+                    maxHelperText={maxHelperText}
+                    startHelperText={startHelperText}
+                    onSetSettings={onSetSettings}
+                    maxValueSetter={maxValueSetter}
+                    startValueSetter={startValueSetter}
+                    onFocusSettingsDisplayedText={onFocusSettingsDisplayedText}
+                />
+            </div>
         </div>
     )
 }

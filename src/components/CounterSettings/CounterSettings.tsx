@@ -1,13 +1,13 @@
-import React, {ChangeEvent, useState} from "react";
+import React, {ChangeEvent, useEffect, useState} from "react";
 import CounterBtn from "../CounterBtn/CounterBtn";
 import {Container, Grid, TextField} from "@mui/material";
 
 type CounterSettingsPropsType = {
-    counter: number
+    error: boolean
     maxCounter: number
     startCounter: number
-    maxValueError: boolean
-    startValueError: boolean
+    maxHelperText: string
+    startHelperText: string
     onSetSettings: () => void
     maxValueSetter: (maxValue: number) => void
     startValueSetter: (startValue: number) => void
@@ -17,8 +17,8 @@ type CounterSettingsPropsType = {
 
 export const CounterSettings: React.FC<CounterSettingsPropsType> = (
     {
-        counter, onSetSettings, maxCounter, startCounter,
-        maxValueError, startValueError, maxValueSetter,
+        error, maxCounter, startCounter, maxHelperText,
+        startHelperText, maxValueSetter, onSetSettings,
         startValueSetter, onFocusSettingsDisplayedText
     }) => {
 
@@ -30,48 +30,57 @@ export const CounterSettings: React.FC<CounterSettingsPropsType> = (
         let currentStartValue = +e.currentTarget.value
         startValueSetter(currentStartValue)
     }
-    const onFocusMaxHandler = () => {
+    const onFocusHandler = () => {
         onFocusSettingsDisplayedText()
     }
-
     const btnSetCallback = () => {
         onSetSettings()
     }
-
-    let maxErrorHelperText = maxValueError ? 'max should be more than start' : ''
-    let startErrorHelperText = startValueError ? 'value should be positive integer' : ''
-    let ifDisabled = (maxValueError || startValueError) ? true : false
+    const setBtnDisabled = error
 
     return (
         <div>
-            <Grid container spacing={1}>
-                <Grid item xs={12}>
+            <Grid
+                container
+                // spacing={1}
+            >
+                <Grid
+                    sx={{
+                        height: '90px'
+                    }}
+                    item xs={12}>
                     <TextField
-                        error={maxValueError}
-                        helperText={maxErrorHelperText}
+                        sx={{width: '100%'}}
+                        // error={maxError}
+                        helperText={maxHelperText}
                         value={maxCounter}
                         type='number'
                         variant="outlined"
                         label='max value'
                         onChange={onChangeMaxValueHandler}
-                        onFocus={onFocusMaxHandler}
+                        onFocus={onFocusHandler}
                     />
                 </Grid>
-                <Grid item xs={12}>
+                <Grid
+                    sx={{
+                        height: '90px'
+                    }}
+                    item xs={12}>
                     <TextField
-                        error={startValueError}
-                        helperText={startErrorHelperText}
+                        sx={{width: '100%'}}
+                        // error={startError}
+                        helperText={startHelperText}
                         value={startCounter}
                         type='number'
                         variant="outlined"
                         label='start value'
                         onChange={onChangeStartValueHandler}
-                        onFocus={onFocusMaxHandler}
+                        onFocus={onFocusHandler}
                     />
                 </Grid>
                 <Grid item xs={12}>
                     <CounterBtn
-                        disabled={ifDisabled}
+                        disabled={setBtnDisabled}
                         name='set'
                         btnCallback={btnSetCallback}
                     />

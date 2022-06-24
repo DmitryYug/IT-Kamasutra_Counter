@@ -4,17 +4,18 @@ import {Button} from "@mui/material";
 
 type CounterBtnPropsType = {
     name: BtnNameType,
-    disabled: boolean,
+    disabled?: boolean,
     btnCallback: () => void
 }
 
 const CounterBtn: React.FC<CounterBtnPropsType> = (
     {
-        name, btnCallback, disabled
+        name, disabled,btnCallback
     }) => {
 
     return(
         <Button
+            sx={{width: '100%'}}
             variant="contained"
             onClick={btnCallback}
             disabled={disabled}

@@ -1,4 +1,13 @@
 .maxValueClass {
     color: #ff2f28;
+    font-size: 100px;
     /*background: #ff8349;*/
+}
+
+.regularText {
+    font-size: 100px;
+}
+.settingsMode {
+    font-size: 35px;
+    color: #ff2f28;
 }

@@ -2,38 +2,40 @@ import React from "react";
 import classes from "./CounterDisplay.module.css";
 
 type CounterDisplayType = {
-    counter: number
-    maxCounter?: number
-    maxValueError?: boolean
-    startValueError?: boolean
-    currentInfo: string
+    // counter: number
+    redText: boolean
+    screenMessage: string
+    // maxCounter?: number
+    // maxValueError?: boolean
+    // startValueError?: boolean
+    // currentInfo: string
+
 }
 
 const CounterDisplay: React.FC<CounterDisplayType> = (
-    {maxCounter, counter,
-        maxValueError, startValueError, currentInfo}) => {
+    {screenMessage, redText}) => {
 
-    // let errorMessage = () => {
-    //     return(
-    //         <div style={{
-    //             fontSize: '54px',
-    //             color: "red"
-    //         }}>
-    //             wrong input
-    //         </div>
-    //     )
-    // }
-    let maxValueClass = (counter === maxCounter) ? classes.maxValueClass : ''
-    // let dispayedText = (maxValueError || startValueError) ? errorMessage() : counter
+    let currentClass = redText ? classes.maxValueClass : classes.regularText
+
+    if (screenMessage === "Enter values and press SET"
+        || screenMessage === 'wrong input') {
+        currentClass = classes.settingsMode
+    }
 
 
     return (
         <div
-            className={maxValueClass}
-            style={{fontSize: '105px'}}
+            className={currentClass}
+            style={{
+                display: 'table-cell',
+                verticalAlign: 'middle',
+                textAlign: 'center',
+                border: '2px solid black',
+                width: '200px',
+                height: '170px'
+            }}
         >
-            {currentInfo}
-            {/*{dispayedText}*/}
+            {screenMessage}
         </div>
     )
 }
