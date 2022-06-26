@@ -1,15 +1,15 @@
 import React, {useState} from 'react';
 import classes from "./App.module.css";
-import {Counter} from "./components/Counter/Counter";
+import { CounterContainer } from './components/Counter/CounterContainer';
+
 
 export type BtnNameType = 'inc' | 'reset' | 'set'
 
-
 function App() {
-
     return (
         <div className={classes.appWrapper}>
-            <Counter/>
+            {/*<Counter/>*/}
+            <CounterContainer/>
         </div>
     );
 }

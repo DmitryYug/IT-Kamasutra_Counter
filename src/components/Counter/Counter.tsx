@@ -1,11 +1,9 @@
 import React, {useEffect, useState} from "react";
-// import {CounterScreen} from "../CounterScreen/CounterScreen";
 import {CounterSettings} from "../CounterSettings/CounterSettings";
 import CounterBtn from "../CounterBtn/CounterBtn";
 import CounterDisplay from "../CounterDisplay/CounterDisplay";
-import {start} from "repl";
 
-export const Counter = () => {
+const Counter = () => {
 
     // let initialStartCounter = localStorage.getItem('startValue') ?
     //     Number(localStorage.getItem('startValue')) : 0
@@ -104,22 +102,13 @@ export const Counter = () => {
 
 
     return (
-        <div style={{
-            margin: '100px',
-            display: 'flex'
-        }}>
+        <div style={{margin: '100px', display: 'flex'}}>
             <div>
                 <CounterDisplay
                     redText={incBtnDisabled}
                     screenMessage={screenMessage}/>
-                <div style={{
-                    padding: '8px',
-                    display: 'flex',
-                    justifyContent: 'space-around',
-                }}>
-                    <div style={{
-                        margin: '0 20px 0 0'
-                    }}>
+                <div style={{padding: '8px', display: 'flex', justifyContent: 'space-around'}}>
+                    <div style={{margin: '0 20px 0 0'}}>
                         <CounterBtn
                             name='inc'
                             disabled={incBtnDisabled}
@@ -133,21 +122,18 @@ export const Counter = () => {
                     />
                 </div>
             </div>
-            <div style={{
-                width: '250px',
-                margin: '0 0 0 30px'
-            }}>
-                <CounterSettings
-                    error={error}
-                    maxCounter={maxCounter}
-                    startCounter={startCounter}
-                    maxHelperText={maxHelperText}
-                    startHelperText={startHelperText}
-                    onSetSettings={onSetSettings}
-                    maxValueSetter={maxValueSetter}
-                    startValueSetter={startValueSetter}
-                    onFocusSettingsDisplayedText={onFocusSettingsDisplayedText}
-                />
+            <div style={{width: '250px', margin: '0 0 0 30px'}}>
+                {/*<CounterSettings*/}
+                {/*    error={error}*/}
+                {/*    maxCounter={maxCounter}*/}
+                {/*    startCounter={startCounter}*/}
+                {/*    maxHelperText={maxHelperText}*/}
+                {/*    startHelperText={startHelperText}*/}
+                {/*    onSetSettings={onSetSettings}*/}
+                {/*    maxValueSetter={maxValueSetter}*/}
+                {/*    startValueSetter={startValueSetter}*/}
+                {/*    onFocusSettingsDisplayedText={onFocusSettingsDisplayedText}*/}
+                {/*/>*/}
             </div>
         </div>
     )

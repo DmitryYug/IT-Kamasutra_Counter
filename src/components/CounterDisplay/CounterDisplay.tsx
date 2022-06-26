@@ -2,14 +2,8 @@ import React from "react";
 import classes from "./CounterDisplay.module.css";
 
 type CounterDisplayType = {
-    // counter: number
     redText: boolean
     screenMessage: string
-    // maxCounter?: number
-    // maxValueError?: boolean
-    // startValueError?: boolean
-    // currentInfo: string
-
 }
 
 const CounterDisplay: React.FC<CounterDisplayType> = (
