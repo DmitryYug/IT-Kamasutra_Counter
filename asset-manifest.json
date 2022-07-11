@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/IT-Kamasutra_Counter/static/css/main.246c80d7.css",
-    "main.js": "/IT-Kamasutra_Counter/static/js/main.9df0cd75.js",
+    "main.js": "/IT-Kamasutra_Counter/static/js/main.ab55f7ce.js",
     "index.html": "/IT-Kamasutra_Counter/index.html",
     "main.246c80d7.css.map": "/IT-Kamasutra_Counter/static/css/main.246c80d7.css.map",
-    "main.9df0cd75.js.map": "/IT-Kamasutra_Counter/static/js/main.9df0cd75.js.map"
+    "main.ab55f7ce.js.map": "/IT-Kamasutra_Counter/static/js/main.ab55f7ce.js.map"
   },
   "entrypoints": [
     "static/css/main.246c80d7.css",
-    "static/js/main.9df0cd75.js"
+    "static/js/main.ab55f7ce.js"
   ]
 }
