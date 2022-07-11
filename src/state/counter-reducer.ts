@@ -4,7 +4,8 @@ type initialCounterStateType = {
     startCounter: number,
     currentCounter: number,
     screenMessage: string,
-    error: boolean,
+    maxError: boolean,
+    startError: boolean,
     settingsMode: boolean,
     maxHelperText: string,
     startHelperText: string
@@ -12,7 +13,6 @@ type initialCounterStateType = {
 
 type onIncrementACType = ReturnType<typeof onIncrementAC>
 type onResetACType = ReturnType<typeof onResetAC>
-type onErrorACType = ReturnType<typeof onErrorAC>
 type onSettingsModeTogglerACType = ReturnType<typeof onSettingsModeTogglerAC>
 type onSetScreenMessageACType = ReturnType<typeof onSetScreenMessageAC>
 type maxValueSetterACType = ReturnType<typeof maxValueSetterAC>
@@ -22,7 +22,6 @@ type onFocusACType = ReturnType<typeof onFocusAC>
 
 type CounterReducerType = onIncrementACType
     | onResetACType
-    | onErrorACType
     | onSettingsModeTogglerACType
     | onSetScreenMessageACType
     | maxValueSetterACType
@@ -35,7 +34,8 @@ let initialCounterState: initialCounterStateType = {
     startCounter: 0,
     currentCounter: 0,
     screenMessage: '0',
-    error: false,
+    maxError: false,
+    startError: false,
     settingsMode: false,
     maxHelperText: '',
     startHelperText: ''
@@ -62,11 +62,6 @@ export const counterReducer =
                     screenMessage: `${state.startCounter}`,
                     currentCounter: state.startCounter
                 }
-            // case "ON-ERROR":
-            //     return {
-            //         ...state,
-            //         error: action.error
-            //     }
             case "ON-SETTINGSMODE-TOGGLER":
                 return {
                     ...state,
@@ -81,30 +76,40 @@ export const counterReducer =
                 if (action.maxValue <= state.startCounter) {
                     return {
                         ...state,
+                        maxCounter: action.maxValue,
                         maxHelperText: 'max should be more than less',
-                        screenMessage: 'wrong input'
+                        screenMessage: 'wrong input',
+                        maxError: true
                     }
                 } else {
                     return {
                         ...state,
                         maxCounter: action.maxValue,
                         startHelperText: '',
-                        maxHelperText: ''
+                        maxHelperText: '',
+                        maxError: false,
+                        startError: false,
+                        screenMessage: "Enter values and press SET"
                     }
                 }
             case "START-VALUE-SET":
                 if (action.startValue < 0 || action.startValue >= state.maxCounter) {
                     return {
                         ...state,
+                        startCounter: action.startValue,
                         startHelperText: 'should be pos & more than start',
-                        screenMessage: 'wrong input'
+                        screenMessage: 'wrong input',
+                        startError: true
                     }
                 } else {
                     return {
                         ...state,
                         startCounter: action.startValue,
                         startHelperText: '',
-                        maxHelperText: ''
+                        maxHelperText: '',
+                        startError: false,
+                        maxError: false,
+                        screenMessage: "Enter values and press SET"
                     }
                 }
             case "ON-SET-SETTINGS":
@@ -134,12 +139,6 @@ export const onIncrementAC = () => {
 export const onResetAC = () => {
     return {
         type: 'ON-RESET'
-    } as const
-}
-export const onErrorAC = (error: boolean) => {
-    return {
-        type: 'ON-ERROR',
-        error
     } as const
 }
 export const onSettingsModeTogglerAC = (settingsMode: boolean) => {

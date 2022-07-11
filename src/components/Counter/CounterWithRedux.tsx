@@ -8,7 +8,8 @@ type CounterWithReduxPropsType = {
     startCounter: number,
     currentCounter: number,
     screenMessage: string,
-    error: boolean,
+    maxError: boolean,
+    startError: boolean,
     settingsMode: boolean,
     maxHelperText: string,
     startHelperText: string,
@@ -26,12 +27,8 @@ type CounterWithReduxPropsType = {
 
 export const CounterWithRedux = (props: CounterWithReduxPropsType) => {
 
-    let incBtnDisabled = (props.currentCounter === props.maxCounter)
-        || props.error
-        || props.settingsMode
-    let resetBtnDisabled = (props.currentCounter === props.startCounter)
-        || props.error
-        || props.settingsMode
+    let incBtnDisabled = (props.currentCounter === props.maxCounter) || props.settingsMode
+    let resetBtnDisabled = (props.currentCounter === props.startCounter) || props.settingsMode
 
     return (
         <div style={{margin: '100px', display: 'flex'}}>
@@ -56,9 +53,11 @@ export const CounterWithRedux = (props: CounterWithReduxPropsType) => {
             </div>
             <div style={{width: '250px', margin: '0 0 0 30px'}}>
                 <CounterSettings
-                    error={props.error}
+                    // error={props.error}
                     maxCounter={props.maxCounter}
                     startCounter={props.startCounter}
+                    maxError={props.maxError}
+                    startError={props.startError}
                     maxHelperText={props.maxHelperText}
                     startHelperText={props.startHelperText}
                     onSetSettings={props.onSetSettings}

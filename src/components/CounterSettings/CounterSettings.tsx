@@ -3,9 +3,11 @@ import CounterBtn from "../CounterBtn/CounterBtn";
 import {Grid, TextField} from "@mui/material";
 
 type CounterSettingsPropsType = {
-    error: boolean
+    // error: boolean
     maxCounter: number
     startCounter: number
+    maxError: boolean
+    startError: boolean
     maxHelperText: string
     startHelperText: string
     onSetSettings: () => void
@@ -17,7 +19,7 @@ type CounterSettingsPropsType = {
 
 export const CounterSettings: React.FC<CounterSettingsPropsType> = (
     {
-        error, maxCounter, startCounter, maxHelperText,
+        maxError, startError, maxCounter, startCounter, maxHelperText,
         startHelperText, maxValueSetter, onSetSettings, startValueSetter, onFocus
     }) => {
 
@@ -30,7 +32,7 @@ export const CounterSettings: React.FC<CounterSettingsPropsType> = (
         startValueSetter(currentStartValue)
     }
 
-    const setBtnDisabled = error
+    const setBtnDisabled = maxError || startError
 
     return (
         <div>
@@ -40,11 +42,11 @@ export const CounterSettings: React.FC<CounterSettingsPropsType> = (
                     sx={{height: '90px'}}
                     xs={12}>
                     <TextField
+                        error={maxError}
                         sx={{width: '100%'}}
                         helperText={maxHelperText}
                         value={maxCounter}
                         type='number'
-                        variant="outlined"
                         label='max value'
                         onChange={onChangeMaxValueHandler}
                         onFocus={onFocus}
@@ -55,11 +57,11 @@ export const CounterSettings: React.FC<CounterSettingsPropsType> = (
                     sx={{height: '90px'}}
                     xs={12}>
                     <TextField
+                        error={startError}
                         sx={{width: '100%'}}
                         helperText={startHelperText}
                         value={startCounter}
                         type='number'
-                        variant="outlined"
                         label='start value'
                         onChange={onChangeStartValueHandler}
                         onFocus={onFocus}

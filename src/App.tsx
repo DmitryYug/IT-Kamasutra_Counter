@@ -8,7 +8,6 @@ export type BtnNameType = 'inc' | 'reset' | 'set'
 function App() {
     return (
         <div className={classes.appWrapper}>
-            {/*<Counter/>*/}
             <CounterContainer/>
         </div>
     );
