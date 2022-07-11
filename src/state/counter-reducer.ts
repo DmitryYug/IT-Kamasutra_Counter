@@ -73,7 +73,7 @@ export const counterReducer =
                     screenMessage: action.screenMessage
                 }
             case "MAX-VALUE-SET":
-                if (action.maxValue <= state.startCounter) {
+                if (action.maxValue <= state.startCounter || state.startCounter < 0) {
                     return {
                         ...state,
                         maxCounter: action.maxValue,
