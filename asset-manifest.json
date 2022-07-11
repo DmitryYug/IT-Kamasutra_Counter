@@ -1,15 +1,13 @@
 {
   "files": {
-    "main.css": "/IT-Kamasutra_Counter/static/css/main.bc9cdcd0.css",
-    "main.js": "/IT-Kamasutra_Counter/static/js/main.3678fe99.js",
-    "static/js/787.e458d2a5.chunk.js": "/IT-Kamasutra_Counter/static/js/787.e458d2a5.chunk.js",
+    "main.css": "/IT-Kamasutra_Counter/static/css/main.246c80d7.css",
+    "main.js": "/IT-Kamasutra_Counter/static/js/main.9df0cd75.js",
     "index.html": "/IT-Kamasutra_Counter/index.html",
-    "main.bc9cdcd0.css.map": "/IT-Kamasutra_Counter/static/css/main.bc9cdcd0.css.map",
-    "main.3678fe99.js.map": "/IT-Kamasutra_Counter/static/js/main.3678fe99.js.map",
-    "787.e458d2a5.chunk.js.map": "/IT-Kamasutra_Counter/static/js/787.e458d2a5.chunk.js.map"
+    "main.246c80d7.css.map": "/IT-Kamasutra_Counter/static/css/main.246c80d7.css.map",
+    "main.9df0cd75.js.map": "/IT-Kamasutra_Counter/static/js/main.9df0cd75.js.map"
   },
   "entrypoints": [
-    "static/css/main.bc9cdcd0.css",
-    "static/js/main.3678fe99.js"
+    "static/css/main.246c80d7.css",
+    "static/js/main.9df0cd75.js"
   ]
 }
