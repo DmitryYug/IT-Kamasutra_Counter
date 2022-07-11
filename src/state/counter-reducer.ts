@@ -1,5 +1,5 @@
 // Types
-type initialCounterStateType = {
+export type CounterStateType = {
     maxCounter: number,
     startCounter: number,
     currentCounter: number,
@@ -29,7 +29,7 @@ type CounterReducerType = onIncrementACType
     | onSetSettingsACType
     | onFocusACType
 
-let initialCounterState: initialCounterStateType = {
+let initialCounterState: CounterStateType = {
     maxCounter: 5,
     startCounter: 0,
     currentCounter: 0,
@@ -44,11 +44,11 @@ let initialCounterState: initialCounterStateType = {
 
 // Reducer
 export const counterReducer =
-    (state = initialCounterState, action: CounterReducerType) => {
+    (state = initialCounterState, action: CounterReducerType):CounterStateType => {
         switch (action.type) {
             case "ON-INCREMENT":
                 if (state.currentCounter === state.maxCounter) {
-                    return
+                    return state
                 } else {
                     return {
                         ...state,
@@ -93,10 +93,18 @@ export const counterReducer =
                     }
                 }
             case "START-VALUE-SET":
-                if (action.startValue < 0 || action.startValue >= state.maxCounter) {
+                if (action.startValue < 0) {
                     return {
                         ...state,
-                        startCounter: action.startValue,
+                        startCounter: 0,
+                        startHelperText: 'should be pos & more than start',
+                        screenMessage: 'wrong input',
+                        startError: true
+                    }
+                } else if (action.startValue >= state.maxCounter) {
+                    return {
+                        ...state,
+                        startCounter: state.maxCounter,
                         startHelperText: 'should be pos & more than start',
                         screenMessage: 'wrong input',
                         startError: true

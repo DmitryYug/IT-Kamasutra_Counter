@@ -1,15 +1,11 @@
 import React, {ChangeEvent} from "react";
 import CounterBtn from "../CounterBtn/CounterBtn";
 import {Grid, TextField} from "@mui/material";
+import {CounterStateType} from "../../state/counter-reducer";
 
 type CounterSettingsPropsType = {
-    // error: boolean
-    maxCounter: number
-    startCounter: number
-    maxError: boolean
-    startError: boolean
-    maxHelperText: string
-    startHelperText: string
+    state: CounterStateType
+    setBtnDisabled: boolean
     onSetSettings: () => void
     maxValueSetter: (maxValue: number) => void
     startValueSetter: (startValue: number) => void
@@ -17,22 +13,20 @@ type CounterSettingsPropsType = {
 }
 
 
-export const CounterSettings: React.FC<CounterSettingsPropsType> = (
-    {
-        maxError, startError, maxCounter, startCounter, maxHelperText,
-        startHelperText, maxValueSetter, onSetSettings, startValueSetter, onFocus
-    }) => {
+export const CounterSettings: React.FC<CounterSettingsPropsType> = (props) => {
+
+    const {maxError, startError, maxCounter, startCounter, maxHelperText, startHelperText} = props.state
 
     const onChangeMaxValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
         let currentMaxValue = +e.currentTarget.value
-        maxValueSetter(currentMaxValue)
+        props.maxValueSetter(currentMaxValue)
     }
     const onChangeStartValueHandler = (e: ChangeEvent<HTMLInputElement>) => {
         let currentStartValue = +e.currentTarget.value
-        startValueSetter(currentStartValue)
+        props.startValueSetter(currentStartValue)
     }
 
-    const setBtnDisabled = maxError || startError
+
 
     return (
         <div>
@@ -45,11 +39,11 @@ export const CounterSettings: React.FC<CounterSettingsPropsType> = (
                         error={maxError}
                         sx={{width: '100%'}}
                         helperText={maxHelperText}
-                        value={maxCounter}
+                        value={maxError ? startCounter : maxCounter}
                         type='number'
                         label='max value'
                         onChange={onChangeMaxValueHandler}
-                        onFocus={onFocus}
+                        onFocus={props.onFocus}
                     />
                 </Grid>
                 <Grid
@@ -64,14 +58,14 @@ export const CounterSettings: React.FC<CounterSettingsPropsType> = (
                         type='number'
                         label='start value'
                         onChange={onChangeStartValueHandler}
-                        onFocus={onFocus}
+                        onFocus={props.onFocus}
                     />
                 </Grid>
                 <Grid item xs={12}>
                     <CounterBtn
-                        disabled={setBtnDisabled}
+                        disabled={props.setBtnDisabled}
                         name='set'
-                        btnCallback={onSetSettings}
+                        btnCallback={props.onSetSettings}
                     />
                 </Grid>
             </Grid>
